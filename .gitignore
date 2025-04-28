@@ -1,0 +1,15 @@
+/target/
+/.idea
+/nbproject
+/node_modules
+/dist
+/app/dist
+/.tmp
+/.sass-cache
+/bower_components
+/reports
+/npm-debug.log
+.gitlab-ci-local/
+/app/reports/
+/build/
+.DS_Store
