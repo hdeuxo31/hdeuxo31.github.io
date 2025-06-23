@@ -1,44 +1,60 @@
 (function () {
 'use strict';
-var app = angular.module('LaunchMenu', [])
-    
-app.controller('LaunchMenuController', function ($scope) {
-    $scope.listOfItem = "";
-    $scope.message = "";
+var app = angular.module('ShoppingListCheckOff', []);
 
-    $scope.handledClick = function () {
-        // trim the input string and check if it's empty
-        if ($scope.listOfItem.trim() === '') {
-            $scope.message = "Please enter data first";
-            $scope.messageClass = "message-ko";
-            return;
-        }
+app.controller('ToBuyController', ToBuyController);
+app.controller('AlreadyBoughtController', AlreadyBoughtController);
+app.service('ShoppingListCheckOffService', ShoppingListCheckOffService);
 
-        // Split the input string by commas
-        var items = $scope.listOfItem.split(',')
+ToBuyController.$inject = ['ShoppingListCheckOffService'];
+function ToBuyController(ShoppingListCheckOffService) {
+    var itemToBuy = this;
 
-        // Filter out empty strings and trim whitespace
-        var nonEmptyItems = items.filter(function (item) {
-            return item.trim() !== '';
-        });
+    itemToBuy.items = ShoppingListCheckOffService.getItems();
+    console.log('itemToBuy = ', itemToBuy.items);
 
-        // Count the number of non-empty items
-        var itemCount = nonEmptyItems.length;
+    itemToBuy.buyItem = function (itemIndex) {
+        ShoppingListCheckOffService.buyItem(itemIndex);
+    }
 
-        // Update the message with the count
-        if (itemCount === 0) {
-            $scope.message = "Please enter data first";
-            $scope.messageClass = "message-ko";
-        } else if (itemCount <= 3) {
-            $scope.message = "Enjoy!";
-            $scope.messageClass = "message-ok";
 
-        } else {
-            $scope.message = "Too much!";
-            $scope.messageClass = "message-ok";
-        }
-    };
-});
+}
 
+AlreadyBoughtController.$inject = ['ShoppingListCheckOffService']
+function AlreadyBoughtController(ShoppingListCheckOffService) {
+    var itemAlreadyBought = this;
+
+    itemAlreadyBought.items = ShoppingListCheckOffService.getBoughtItems();
+    console.log('itemToBought = ', itemAlreadyBought.items);
+}
+
+function ShoppingListCheckOffService() {
+    var service = this;
+
+    // List of items
+    var startItem = [
+        { name: "cookies", quantity: 10 },
+        { name: "coca-cola", quantity: 20 },
+        { name: "banana", quantity: 5 },
+        { name: "strawberry", quantity: 3 },
+        { name: "pear", quantity: 7 }
+    ]
+
+    var itemAlreadyBought = [];
+
+    service.getItems = function () {
+        return startItem;
+    }
+
+    service.buyItem = function(itemIndex) {
+        var item = startItem[itemIndex];
+        itemAlreadyBought.push(item);
+        startItem.splice(itemIndex, 1);
+    }
+
+    service.getBoughtItems = function () {
+        return itemAlreadyBought;
+    }
+}
 
 })();
