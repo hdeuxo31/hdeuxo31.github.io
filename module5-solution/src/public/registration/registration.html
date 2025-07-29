@@ -1,0 +1,79 @@
+<h1> Registration to the newsletter </h1>
+
+<fieldset>
+    <legend>Newsletter</legend>
+    <form name="regForm" novalidate>
+
+        <input type="text" name="firstName" placeholder="First Name"
+                ng-model="registrationCtrl.user.firstname"
+                required
+                minlength="3"
+                maxlength="20">
+        {{ registrationCtrl.user.firstname }}
+        <span
+            ng-if="(regForm.firstName.$error.minlength || regForm.firstName.$error.required) && regForm.firstName.$touched">
+            Username must be at least 3 characters long.
+        </span>
+        <span ng-if="regForm.firstName.$error.maxlength && regForm.firstName.$touched">
+            Username must be no longer than 20 characters.
+        </span>
+        <br>
+
+        <input type="text" name="lastName" placeholder="Last Name"
+                ng-model="registrationCtrl.user.lastname"
+                minlength="3"
+                maxlength="20"
+                required>
+        {{ registrationCtrl.user.lastname }}
+        <span
+            ng-if="(regForm.lastName.$error.minlength || regForm.lastName.$error.required) && regForm.lastName.$touched">
+            Username must be at least 3 characters long.
+        </span>
+        <span ng-if="regForm.lastName.$error.maxlength && regForm.lastName.$touched">
+            Username must be no longer than 20 characters.
+        </span>
+        <br>
+
+        <input type="email" name="email" placeholder="Email Address"
+               ng-model="registrationCtrl.user.useremail"
+               required>
+        {{ registrationCtrl.user.email }}
+        <span ng-if="regForm.email.$invalid && regForm.email.$touched">
+            Must be a valid email address: handle@domain format
+        </span>
+        <br>
+
+        <input type="text" name="phone" placeholder="Phone ###-###-####"
+                ng-model="registrationCtrl.user.phone"
+                pattern="(\d{3})-(\d{3})-(\d{4})">
+        {{ registrationCtrl.user.phone }}
+        <span ng-if="regForm.phone.$invalid && regForm.phone.$touched" >
+            Phone must be in the format ###-###-####.
+        </span>
+        <br>
+
+        <input type="text" name="favoriteDish" placeholder="Menu number that's your Favorite Dish"
+            ng-model="registrationCtrl.user.favorite_dish">
+        <span ng-show="regForm.favoriteDish.$touched && !registrationCtrl.favoriteDishValid">
+            No such menu number exists.
+        </span>
+        <br>
+
+        <button
+            ng-disabled="regForm.$invalid || !registrationCtrl.favoriteDishValid"
+            ng-click="registrationCtrl.submit()">Submit</button>
+        <br>
+        <span ng-hide="!registrationCtrl.completed">
+            Your information has been saved.
+        </span>
+        <br>
+
+        <div stryle="margin-top: 10px;">
+            Form valid? {{ regForm.$valid }}
+        </div>
+        <div stryle="margin-top: 10px;">
+            Favorite dish valid? {{ registrationCtrl.favoriteDishValid }}
+        </div>
+
+    </form>
+</fieldset>

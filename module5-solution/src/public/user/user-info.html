@@ -1,0 +1,26 @@
+<h1> Registred information</h1>
+
+<div ng-if="userInfoCtrl.userUndefined === false">
+    <label>First name : </label> {{userInfoCtrl.user.firstname}}
+    <br>
+    <label>Last name : </label> {{userInfoCtrl.user.lastname}}
+    <br>
+    <label>Email : </label> {{userInfoCtrl.user.useremail}}
+    <br>
+    <label>Phone : </label> {{userInfoCtrl.user.phone}}
+    <br>
+    <label>Favorite Dish : </label> {{userInfoCtrl.user.favorite_dish}}
+    <br>
+    <div>
+        <img class="img-responsive" width="250" height="150" ng-src="images/menu/{{userInfoCtrl.favoriteDish.categoryShortName}}/{{userInfoCtrl.user.favorite_dish}}.jpg" alt="{{userInfoCtrl.user.favorite_dish}}">
+    </div>
+    <br>
+    <div>
+        <h3 class="menu-item-title">{{userInfoCtrl.favoriteDish.name}}</h3>
+        <p class="menu-item-details">{{userInfoCtrl.favoriteDish.description}}</p>
+    </div>
+</div>
+<span ng-if="userInfoCtrl.userUndefined === true" >
+    Not Signed Up Yet.
+    <a ui-sref="public.registration"><br> Sign Up</a>
+</span>
